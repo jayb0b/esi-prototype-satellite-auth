@@ -8,7 +8,7 @@ export default defineNuxtConfig({
       return request.origin
     },
     isSatellite: true,
-    signInUrl: process.env.NUXT_PUBLIC_CLERK_SIGN_IN_URL ?? 'http://localhost:3000/login',
+    signInUrl: `${process.env.NUXT_PUBLIC_MAIN_SITE_URL ?? 'http://localhost:3000'}/login`,
     skipServerMiddleware: true,
   },
   css: ['~/assets/main.css'],
