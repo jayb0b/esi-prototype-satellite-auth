@@ -1,5 +1,9 @@
 import { clerkMiddleware } from '@clerk/nuxt/server'
+import { getRequestURL } from 'h3'
 
-export default clerkMiddleware({
-  signInUrl: process.env.NUXT_PUBLIC_CLERK_SIGN_IN_URL ?? 'http://localhost:3000/login',
+export default defineEventHandler((event) => {
+  return clerkMiddleware({
+    domain: getRequestURL(event).origin,
+    signInUrl: process.env.NUXT_PUBLIC_CLERK_SIGN_IN_URL ?? 'http://localhost:3000/login',
+  })(event)
 })
