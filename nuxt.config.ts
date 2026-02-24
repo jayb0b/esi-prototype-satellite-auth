@@ -4,9 +4,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@nuxt/eslint', '@clerk/nuxt', '@pinia/nuxt'],
   clerk: {
-    domain: (request) => {
-      return request.origin
-    },
     isSatellite: true,
     signInUrl: `${process.env.NUXT_PUBLIC_MAIN_SITE_URL ?? 'http://localhost:3000'}/login`,
     skipServerMiddleware: true,
