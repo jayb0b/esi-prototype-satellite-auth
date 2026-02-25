@@ -40,7 +40,11 @@
   const { public: { mainSiteUrl } } = useRuntimeConfig()
   const siteName = useSiteName()
 
-  const loginUrl = computed(() => `${mainSiteUrl}/login?redirect=${encodeURIComponent(requestUrl.href)}`)
+  const loginUrl = computed(() => {
+    const returnUrl = new URL(requestUrl.href)
+    returnUrl.searchParams.set('__clerk_sync', '1')
+    return `${mainSiteUrl}/login?redirect=${encodeURIComponent(returnUrl.toString())}`
+  })
 
   async function handleSignOut() {
     await signOut()
