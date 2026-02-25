@@ -13,7 +13,7 @@
         </template>
         <!-- Unauthenticated state: marketing hero -->
         <template v-else>
-          <h1>Welcome to ESI.info</h1>
+          <h1>Welcome to {{ siteName }}</h1>
           <p>Placeholder text describing what this product does and why it matters.</p>
           <div class="hero-actions">
             <a :href="`${mainSiteUrl}/register`" class="btn-primary">Get started</a>
@@ -22,7 +22,7 @@
         </template>
         <!-- SSR fallback: always render the marketing hero server-side -->
         <template #fallback>
-          <h1>Welcome to ESI.info</h1>
+          <h1>Welcome to {{ siteName }}</h1>
           <p>Placeholder text describing what this product does and why it matters.</p>
           <div class="hero-actions">
             <a :href="`${mainSiteUrl}/register`" class="btn-primary">Get started</a>
@@ -44,6 +44,7 @@
    */
   const { isSignedIn, user } = useClerkAuth()
   const { public: { mainSiteUrl } } = useRuntimeConfig()
+  const siteName = useSiteName()
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="header-inner">
-      <NuxtLink to="/" class="logo">ESI.info</NuxtLink>
+      <NuxtLink to="/" class="logo">{{ siteName }}</NuxtLink>
       <nav class="nav">
         <NuxtLink to="/info" class="nav-link">Info</NuxtLink>
         <ClientOnly>
@@ -38,6 +38,7 @@
   const { isSignedIn, user, signOut } = useClerkAuth()
   const requestUrl = useRequestURL()
   const { public: { mainSiteUrl } } = useRuntimeConfig()
+  const siteName = useSiteName()
 
   const loginUrl = computed(() => `${mainSiteUrl}/login?redirect=${encodeURIComponent(requestUrl.href)}`)
 
