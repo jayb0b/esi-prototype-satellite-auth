@@ -1,19 +1,16 @@
 import { clerkMiddleware } from '@clerk/nuxt/server'
-import { getRequestURL, sendRedirect } from 'h3'
+import { getRequestURL, parseCookies } from 'h3'
 
-export default defineEventHandler(async (event) => {
-  const url = getRequestURL(event)
+export default defineEventHandler((event) => {
+  // Skip satellite sync entirely when there are no Clerk session cookies.
+  // Requests from bots and anonymous users never have these cookies, so they
+  // are served directly without the __clerk_synced redirect chain.
+  const cookies = parseCookies(event)
+  const clientUat = cookies['__client_uat']
+  if (!clientUat || clientUat === '0') return
 
-  await clerkMiddleware({
-    domain: url.host,
+  return clerkMiddleware({
+    domain: getRequestURL(event).host,
     signInUrl: `${process.env.NUXT_PUBLIC_MAIN_SITE_URL ?? 'http://localhost:3000'}/login`,
   })(event)
-
-  // After Clerk processes __clerk_synced (and sets __client_uat so the next
-  // request won't re-sync), redirect to strip the parameter from the URL.
-  // Without this, JS-disabled clients (bots) would see the dirty URL.
-  if (url.searchParams.has('__clerk_synced')) {
-    url.searchParams.delete('__clerk_synced')
-    return sendRedirect(event, url.pathname + (url.search || ''), 302)
-  }
 })
