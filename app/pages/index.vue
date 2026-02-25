@@ -6,9 +6,10 @@
       <ClientOnly>
         <!-- Authenticated state: personalised welcome -->
         <template v-if="isSignedIn">
-          <h1>Welcome back</h1>
+          <h1>Welcome to {{ siteName }}</h1>
           <p>
-            You're signed in as <strong>{{ user?.primaryEmailAddress?.emailAddress }}</strong>.
+            You're signed in as <strong>{{ user?.primaryEmailAddress?.emailAddress }}</strong
+            >.
           </p>
         </template>
         <!-- Unauthenticated state: marketing hero -->
@@ -43,13 +44,15 @@
    *  - Signed in:  personalised welcome showing the user's email.
    */
   const { isSignedIn, user } = useClerkAuth()
-  const { public: { mainSiteUrl } } = useRuntimeConfig()
+  const {
+    public: { mainSiteUrl },
+  } = useRuntimeConfig()
   const siteName = useSiteName()
 </script>
 
 <style scoped>
   .page {
-    min-height: 100vh;
+    min-height: 50vh;
   }
 
   .hero {
