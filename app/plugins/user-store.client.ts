@@ -11,7 +11,7 @@ export default defineNuxtPlugin(() => {
 
   watch(
     [isLoaded, isSignedIn, user],
-    ([loaded, signedIn, clerkUser]) => {
+    async ([loaded, signedIn, clerkUser]) => {
       if (!loaded) return
 
       if (signedIn && clerkUser) {
